@@ -4,7 +4,8 @@ const Book = require("../models/BookModel");
 // Add Borrowing (Peminjaman Buku)
 async function addBorrowing(req, res) {
     try {
-        const { borrower_id, book_id, borrow_date, status, return_date } = req.body;
+        const { borrower_id, book_id, borrow_date } = req.body;
+        const status = "borrowed";
 
         const book = await Book.findById(book_id);
         if (!book) {
@@ -19,12 +20,17 @@ async function addBorrowing(req, res) {
             await book.save();
         }
 
+        // hitung due_date (max durasi peminjaman 1 bulan)
+        const dueDate = new Date(borrow_date);
+        dueDate.setMonth(dueDate.getMonth() + 1);
+
         // buat data peminjaman
         const borrowingDetail = new BorrowingDetail({
             borrower_id: borrower_id,
             book_id: book_id,
             borrow_date: borrow_date,
-            return_date: return_date || null,
+            due_date: dueDate,
+            return_date: null,
             status: status
         });
         await borrowingDetail.save();
@@ -50,6 +56,15 @@ async function getAllBorrowings(req, res) {
             .populate("borrower_id")
             .populate("book_id")
             .sort({ updatedAt: -1 });
+
+        // cek dan update status overdue
+        const now = new Date();
+        for (let borrowing of borrowings) {
+            if (borrowing.status === "borrowed" && borrowing.due_date < now) {
+                borrowing.status = "overdue";
+                await borrowing.save();
+            }
+        }
 
         res.status(200).json({
             success: true,
@@ -77,10 +92,50 @@ async function getBorrowingById(req, res) {
             throw new Error("Borrowing detail not found");
         }
 
+        // cek dan update status overdue
+        const now = new Date();
+        if (borrowing.status === "borrowed" && borrowing.due_date < now) {
+            borrowing.status = "overdue";
+            await borrowing.save();
+        }
+
         res.status(200).json({
             success: true,
             message: `Found borrowing detail with id ${borrowingId}`,
             data: borrowing
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: err.message
+        });
+        console.log(err);
+    }
+}
+
+// Get Borrowing History By Borrower ID
+async function getBorrowingsByBorrowerId(req, res) {
+    try {
+        const { borrowerId } = req.params;
+
+        const borrowings = await BorrowingDetail.find({ borrower_id: borrowerId })
+            .populate("borrower_id")
+            .populate("book_id")
+            .sort({ updatedAt: -1 });
+
+        // cek dan update status overdue
+        const now = new Date();
+        for (let borrowing of borrowings) {
+            if (borrowing.status === "borrowed" && borrowing.due_date < now) {
+                borrowing.status = "overdue";
+                await borrowing.save();
+            }
+        }
+
+        res.status(200).json({
+            success: true,
+            message: `Successfully retrieved borrowings for borrower ${borrowerId}`,
+            data: borrowings
         });
     } catch (err) {
         res.status(400).json({
@@ -161,6 +216,7 @@ module.exports = {
     addBorrowing,
     getAllBorrowings,
     getBorrowingById,
+    getBorrowingsByBorrowerId,
     returnBook,
     deleteBorrowing
 }

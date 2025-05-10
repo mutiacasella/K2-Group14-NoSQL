@@ -69,6 +69,27 @@ async function getBookById(req, res) {
     }
 }
 
+// Get Books By Category ID
+async function getBooksByCategory(req, res) {
+    try {
+        const { categoryId } = req.params;
+
+        const books = await Book.find({ category_id: categoryId });
+
+        res.status(200).json({
+            success: true,
+            message: `Successfully retrieved books in category ${categoryId}`,
+            data: books
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: err.message
+        });
+        console.log(`Error Message: ${err.message}`);
+    }
+}
+
 // Update Book
 async function updateBook(req, res) {
     try {
@@ -134,6 +155,7 @@ module.exports = {
     addBook,
     getAllBook,
     getBookById,
+    getBooksByCategory,
     updateBook,
     deleteBook
 }
