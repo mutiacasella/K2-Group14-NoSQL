@@ -18,9 +18,9 @@ export default function Navbar({ onSearch }) {
     };
 
     const navItems = [
-        { label: 'Home', to: '/', onClick: handleHomeClick }, // Menambahkan onClick
-        { label: 'About', to: '/user/about' },
-
+        { label: 'Home', to: '/', onClick: handleHomeClick },
+        { label: 'Daftar', to: '/daftar' },
+        { label: 'Pengembalian', to: '/borrowing/return' },
     ];
 
     return (
