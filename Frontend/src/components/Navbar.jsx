@@ -50,7 +50,7 @@ export default function Navbar({ onSearch }) {
                 </ul>
 
                 {/* Search Bar */}
-                <div className="relative w-full md:w-64">
+                {/* <div className="relative w-full md:w-64">
                     <input
                         type="text"
                         value={searchTerm}
@@ -58,8 +58,8 @@ export default function Navbar({ onSearch }) {
                         placeholder="Search All..."
                         className="bg-[#fef4f9] border border-pink-200 rounded-full pl-10 pr-4 py-2 text-sm w-full placeholder-pink-400 text-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-300 shadow-sm transition-all duration-200"
                     />
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400 w-4 h-4" />
-                </div>
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400 w-4 h-4" /> */}
+                {/* </div> */}
             </div>
         </nav>
     );

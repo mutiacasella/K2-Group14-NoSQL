@@ -74,6 +74,9 @@ const Categories = () => {
 
   return (
     <section className="w-full py-20 px-6 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
+        <h2 className="text-5xl font-extrabold text-center mb-10 text-purple-900 drop-shadow-md">
+          Categories
+        </h2>
       <div className="max-w-7xl mx-auto">
         {/* Search Bar */}
         <div className="mb-8 text-center">
@@ -100,10 +103,6 @@ const Categories = () => {
             </button>
           ))}
         </div>
-
-        <h2 className="text-4xl font-extrabold text-center mb-10 text-purple-900 drop-shadow-md">
-          {selectedCategory} Books
-        </h2>
 
         {/* Books Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
