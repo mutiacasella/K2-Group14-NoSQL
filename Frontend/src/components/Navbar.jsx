@@ -30,7 +30,7 @@ export default function Navbar({ onSearch }) {
                 {/* Logo or Brand */}
                 <div className="text-lg font-bold text-white-600 tracking-wide">
                     <Link to="/" onClick={handleHomeClick}>
-                        Twinkly
+                        BiblioHaven 
                     </Link>
                 </div>
 
