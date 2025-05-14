@@ -3,7 +3,7 @@ import FeaturedBooks from '../components/FeaturedBooks';
 import Categories from '../components/Categories';
 import Footer from '../components/Footer';
 import AffirmationList from "../components/Feeds";
-import CreateAffirmation from "../components/CreateAffirmation";
+import BorrowBookForm from "../components/BorrowBookForm";
 import { useEffect, useRef, useState } from 'react';
 import { getAllAffirmations } from '../actions/Affirmations.actions';
 import { deleteAffirmation } from '../actions/Affirmations.actions';
@@ -13,7 +13,6 @@ export default function Home() {
     const formRef = useRef(null);
     const [affirmations, setAffirmations] = useState([]);
     const [loading, setLoading] = useState(true);
-    const userId = "123e4567-e89b-12d3-a456-426614174000";
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = (term) => {
@@ -112,13 +111,13 @@ export default function Home() {
                 <Categories searchTerm={searchTerm}/>
             </section>
 
-            {/*Form*/}
+            {/*Borrow Book Form*/}
             <section
                 id="form"
                 ref={formRef}
                 className="py-12 px-4 bg-gradient-to-br from-pink-100 via-indigo-100 to-purple-100 animate__animated animate__fadeIn animate__delay-1s"
             >
-                <CreateAffirmation userId={userId} onSuccess={fetchAffirmations} />
+                <BorrowBookForm />
                 </section>
 
             {/*List*/}
