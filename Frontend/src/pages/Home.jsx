@@ -2,52 +2,18 @@ import Navbar from '../components/Navbar';
 import FeaturedBooks from '../components/FeaturedBooks';
 import Categories from '../components/Categories';
 import Footer from '../components/Footer';
-import AffirmationList from "../components/Feeds";
 import BorrowBookForm from "../components/BorrowBookForm";
+import BorrowingDetailList from "../components/BorrowingDetailList";
 import { useEffect, useRef, useState } from 'react';
-import { getAllAffirmations } from '../actions/Affirmations.actions';
-import { deleteAffirmation } from '../actions/Affirmations.actions';
 
 export default function Home() {
     const featuredBooksRef = useRef(null);
     const formRef = useRef(null);
-    const [affirmations, setAffirmations] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = (term) => {
         setSearchTerm(term.toLowerCase());
     };    
-
-    const fetchAffirmations = async () => {
-        setLoading(true);
-        const result = await getAllAffirmations();
-        if (result.success) {
-            setAffirmations(result.data);
-        }
-        setLoading(false);
-    };
-
-    useEffect(() => {
-        fetchAffirmations();
-    }, []);
-
-    const handleDelete = async (id) => {
-        const confirmDelete = window.confirm("Apakah kamu yakin ingin menghapus affirmation ini?");
-        
-        if (confirmDelete) {
-            const result = await deleteAffirmation(id); // Menghapus affirmation via API
-    
-            if (result.success) {
-                const updated = affirmations.filter(item => item.id !== id); // Update state setelah penghapusan sukses
-                setAffirmations(updated);
-            } else {
-                alert("Gagal menghapus affirmation.");
-            }
-        }
-    };
-    
-    
     
     const scrollToFeaturedBooks = () => {
         if (featuredBooksRef.current) {
@@ -119,14 +85,13 @@ export default function Home() {
             >
                 <BorrowBookForm />
                 </section>
-
-            {/*List*/}
+            {/* Borrowing Detail List */}
             <section
-                id="form"
-                className="py-12 px-4 bg-gradient-to-br from-pink-100 via-indigo-100 to-purple-100 animate__animated animate__fadeIn animate__delay-1s"
+                id="borrowings"
+                className="py-12 px-4 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 animate__animated animate__fadeIn animate__delay-1s"
             >
-                <AffirmationList affirmations={affirmations} loading={loading} onDelete={handleDelete} searchTerm={searchTerm}/>
-                </section>
+                <BorrowingDetailList />
+            </section>
 
             {/* Footer Section */}
             <Footer onCreateClick={scrollToForm}/>
