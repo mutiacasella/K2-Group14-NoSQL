@@ -20,7 +20,7 @@ export default function Navbar({ onSearch }) {
     const navItems = [
         { label: 'Home', to: '/', onClick: handleHomeClick },
         { label: 'Daftar', to: '/daftar' },
-        { label: 'Pengembalian', to: '/borrowing/return' },
+        { label: 'Pengembalian', to: '/pengembalian' },
     ];
 
     return (
