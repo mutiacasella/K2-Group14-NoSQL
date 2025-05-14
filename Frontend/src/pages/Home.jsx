@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar';
-import FeaturedAffirmations from '../components/FeaturedAffirmations';
+import FeaturedBooks from '../components/FeaturedBooks';
 import Categories from '../components/Categories';
 import Footer from '../components/Footer';
 import AffirmationList from "../components/Feeds";
@@ -9,7 +9,7 @@ import { getAllAffirmations } from '../actions/Affirmations.actions';
 import { deleteAffirmation } from '../actions/Affirmations.actions';
 
 export default function Home() {
-    const featuredAffirmationsRef = useRef(null);
+    const featuredBooksRef = useRef(null);
     const formRef = useRef(null);
     const [affirmations, setAffirmations] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -50,9 +50,9 @@ export default function Home() {
     
     
     
-    const scrollToFeaturedAffirmations = () => {
-        if (featuredAffirmationsRef.current) {
-            featuredAffirmationsRef.current.scrollIntoView({
+    const scrollToFeaturedBooks = () => {
+        if (featuredBooksRef.current) {
+            featuredBooksRef.current.scrollIntoView({
                 behavior: 'smooth', 
                 block: 'start', 
             });
@@ -88,20 +88,20 @@ export default function Home() {
                     </p>
                     <button
                         className="bg-purple-800 text-white px-6 py-2 rounded-full font-semibold shadow-lg hover:bg-pink-400 transition duration-300 animate__animated animate__zoomIn animate__delay-3s"
-                        onClick={scrollToFeaturedAffirmations} // Ganti ini kalau punya anchor lain
+                        onClick={scrollToFeaturedBooks} // Ganti ini kalau punya anchor lain
                     >
                         Featured Books
                     </button>
                 </div>
             </section>
 
-            {/* Featured Affirmations */}
+            {/* Featured Books */}
             <section
                 id="featured"
-                ref={featuredAffirmationsRef} // Menambahkan ref pada bagian Featured Products
+                ref={featuredBooksRef} // Menambahkan ref pada bagian Featured Books
                 className="py-12 px-4 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 animate__animated animate__fadeIn"
             >
-                <FeaturedAffirmations searchTerm={searchTerm}/>
+                <FeaturedBooks searchTerm={searchTerm}/>
             </section>
 
             {/* Categories Section*/}
