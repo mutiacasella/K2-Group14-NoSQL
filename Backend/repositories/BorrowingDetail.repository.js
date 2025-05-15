@@ -81,7 +81,7 @@ async function getAllBorrowings(req, res) {
 }
 
 // Get Borrowing By ID
-async function getAllBorrowings(req, res) {
+async function getBorrowingById(req, res) {
     try {
         const { status } = req.query;
 
@@ -166,8 +166,15 @@ async function returnBook(req, res) {
         }
 
         // update status dan tanggal kembali
-        borrowing.status = "returned";
-        borrowing.return_date = return_date;
+        const returnDate = new Date(return_date);
+            borrowing.return_date = returnDate;
+
+            if (returnDate > borrowing.due_date) {
+                borrowing.status = "overdue";
+            } else {
+                borrowing.status = "returned";
+            }
+
         await borrowing.save();
 
         // tambah kembali stok buku
