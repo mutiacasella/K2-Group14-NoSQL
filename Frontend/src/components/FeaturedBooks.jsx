@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Image1 from '../assets/image1.jpg';
-import Image2 from '../assets/image2.jpg';
-import Image3 from '../assets/image3.jpg';
-import Image4 from '../assets/image4.jpg';
+import Image2 from '../assets/image6.jpg';
+import Image3 from '../assets/image9.jpg';
+import Image4 from '../assets/image14.jpg';
 import 'animate.css';
 
 export default function FeaturedBooks({ searchTerm }) {

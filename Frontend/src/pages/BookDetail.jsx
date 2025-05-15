@@ -84,7 +84,7 @@ const BookDetail = () => {
             <img
               src={selectedImage}
               alt={book.title}
-              className="w-full max-w-md object-cover rounded-lg shadow-md"
+              className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
             />
           </div>
 
