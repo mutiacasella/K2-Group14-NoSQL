@@ -4,14 +4,13 @@ import axios from 'axios';
 
 export default function FormPengembalian() {
     const [borrowingId, setBorrowingId] = useState('');
-    const [returnDate, setReturnDate] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8080/borrowing/return/${borrowingId}`, {
-                return_date: returnDate,
+            await axios.put(`http://localhost:8080/borrowing/return`, {
+                borrowing_id: borrowingId, // sesuai backend
             });
             alert('Buku berhasil dikembalikan!');
             navigate('/');
@@ -32,16 +31,6 @@ export default function FormPengembalian() {
                             type="text"
                             value={borrowingId}
                             onChange={(e) => setBorrowingId(e.target.value)}
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-1 font-medium text-gray-700">Tanggal Pengembalian</label>
-                        <input
-                            type="date"
-                            value={returnDate}
-                            onChange={(e) => setReturnDate(e.target.value)}
                             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
                             required
                         />
