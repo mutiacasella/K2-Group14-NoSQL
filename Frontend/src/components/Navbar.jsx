@@ -11,6 +11,7 @@ export default function Navbar() {
 
     const navItems = [
         { label: 'Home', to: '/', onClick: handleHomeClick },
+        { label: 'Login', to: '/login' },
         { label: 'Register', to: '/register' },
         { label: 'Return', to: '/return' },
     ];

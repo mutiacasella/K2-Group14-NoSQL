@@ -1,13 +1,11 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate, Link } from 'react-router-dom';
 
-export default function FormDaftarBorrower() {
-    const [name, setName] = useState('');
+
+export default function Login() {
     const [email, setEmail] = useState('');
-    const [address, setAddress] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
@@ -17,21 +15,16 @@ export default function FormDaftarBorrower() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (password.length < 8) {
-            setError('Password must be at least 8 characters');
+        if (!email || !password) {
+            setError('Email and password are required');
             return;
-        } else {
-            setError('');
         }
 
         try {
             const res = await axios.post(
-                `${import.meta.env.VITE_API_URL}/borrower/add`,
+                `${import.meta.env.VITE_API_URL}/borrower/login`,
                 {
-                    name,
                     email,
-                    address,
-                    phone_number: phoneNumber,
                     password
                 },
                 {
@@ -40,11 +33,11 @@ export default function FormDaftarBorrower() {
                     }
                 }
             );
-            alert('Successfully registered!');
+            alert('Successfully login!');
             navigate('/');
         } catch (err) {
             console.error(err);
-            alert('Failed to register: ' + err.response?.data?.message || 'Unknown error');
+            alert('Failed to login: ' + err.response?.data?.message || 'Unknown error');
         }
     };
 
@@ -52,45 +45,15 @@ export default function FormDaftarBorrower() {
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-200 via-blue-100 to-purple-200">
             <div className="max-w-xl w-full p-8 bg-white shadow-lg rounded-2xl">
                 <h1 className="text-3xl font-extrabold mb-6 text-center text-pink-600">
-                    Register
+                    Login
                 </h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block mb-1 font-semibold">Name</label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-300"
-                            required
-                        />
-                    </div>
                     <div>
                         <label className="block mb-1 font-semibold">Email</label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-300"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-1 font-semibold">Address</label>
-                        <input
-                            type="text"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-300"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-1 font-semibold">Phone Number</label>
-                        <input
-                            type="text"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
                             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-300"
                             required
                         />
@@ -124,6 +87,12 @@ export default function FormDaftarBorrower() {
                     >
                         Submit
                     </button>
+                    <p className="text-sm text-center text-gray-600 mt-4">
+                        Don't have any account?{' '}
+                        <Link to="/register" className="text-pink-500 font-semibold hover:underline">
+                            Register here.
+                        </Link>
+                    </p>
                 </form>
             </div>
         </div>

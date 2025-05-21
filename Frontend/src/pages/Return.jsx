@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function FormPengembalian() {
+export default function Return() {
     const [borrowingId, setBorrowingId] = useState('');
     const navigate = useNavigate();
 

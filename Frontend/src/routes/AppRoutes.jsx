@@ -1,19 +1,21 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
-import FormDaftarBorrower from '../pages/FormDaftarBorrower';
-import FormPengembalian from '../pages/FormPengembalian';
+import Register from '../pages/Register';
+import Login from '../pages/Login';
+import Return from '../pages/Return';
 import BookDetail from '../pages/BookDetail';
-import BorrowingDetailPage from '../pages/BorrowingDetailPage';
+import BorrowingDetail from '../pages/BorrowingDetail';
 
 
 export default function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/register" element={<FormDaftarBorrower />} />
-            <Route path="/return" element={<FormPengembalian />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/return" element={<Return />} />
             <Route path="/book/:bookId" element={<BookDetail />} />
-            <Route path="/borrowing/:borrowingId" element={<BorrowingDetailPage />} />
+            <Route path="/borrowing/:borrowingId" element={<BorrowingDetail />} />
         </Routes>
     );
 }

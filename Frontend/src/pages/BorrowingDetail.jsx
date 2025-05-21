@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import 'animate.css';
 
-const BorrowingDetailPage = () => {
+const BorrowingDetail = () => {
     const { borrowingId } = useParams();
     const navigate = useNavigate();
     const [borrowing, setBorrowing] = useState(null);
@@ -77,4 +77,4 @@ const BorrowingDetailPage = () => {
     );
 };
 
-export default BorrowingDetailPage;
+export default BorrowingDetail;
