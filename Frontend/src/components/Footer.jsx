@@ -20,7 +20,7 @@ const Footer = () => {
                     <h3 className="font-semibold text-lg mb-4">Navigation</h3>
                     <ul className="text-sm text-gray-300 space-y-2">
                         <li><a href="#hero" className="hover:text-blue-400">Home</a></li>
-                        <li><Link to="/register" className="hover:text-blue-400">Borrow</Link></li>
+                        <li><Link to="/register" className="hover:text-blue-400">Register</Link></li>
                         <li><Link to="/return" className="hover:text-blue-400">Return</Link></li>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@ const Footer = () => {
             </div>
 
             <div className="text-center text-sm mt-12 text-gray-400">
-                <p>&copy; 2025 BiblioHaven. All rights reserved. Crafted with care and creativity 💫</p>
+                <p>&copy; 2025 BiblioHaven. All rights reserved.</p>
             </div>
         </footer>
     );
