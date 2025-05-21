@@ -1,49 +1,35 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Image1 from '../assets/image1.jpg';
-import Image2 from '../assets/image6.jpg';
-import Image3 from '../assets/image9.jpg';
-import Image4 from '../assets/image14.jpg';
+import axios from 'axios';
 import 'animate.css';
 
 export default function FeaturedBooks({ searchTerm }) {
   const containerRef = useRef(null);
+  const [featuredBooks, setFeaturedBooks] = useState([]);
 
-  // Featured Books (Use the same books as in Categories component)
-  const featuredBooks = [
-    {
-      bookId: '68248f5101e942aee0146e0b',
-      title: 'The Great Gatsby',
-      description: 'A story of wealth, love, and the American Dream.',
-      image: Image1
-    },
-    {
-      bookId: '68248f1401e942aee0146e01',
-      title: 'Atomic Habits',
-      description: 'Tiny changes, remarkable results.',
-      image: Image2
-    },
-    {
-      bookId: '68248ef501e942aee0146dfb',
-      title: 'Steve Jobs',
-      description: 'The life of Apple’s visionary founder.',
-      image: Image3
-    },
-    {
-      bookId: '68248eae01e942aee0146df1',
-      title: 'The 7 Habits of Highly Effective People',
-      description: 'Principles for personal and professional success.',
-      image: Image4
+  useEffect(() => {
+    async function fetchTopBooks() {
+      try {
+        const response = await axios.get("http://localhost:8080/borrowing/topborrowed");
+        const books = response.data.data.map(item => ({
+          bookId: item.book._id,
+          title: item.book.title,
+          image: item.book.cover_image || "https://via.placeholder.com/150" // default if missing
+        }));
+        setFeaturedBooks(books);
+      } catch (err) {
+        console.error("Failed to fetch top borrowed books:", err);
+      }
     }
-  ];
 
-  // Filtered featured books based on the search term
+    fetchTopBooks();
+  }, []);
+
   const filteredBooks = featuredBooks.filter(book =>
     book.title.toLowerCase().includes(searchTerm) ||
     book.description.toLowerCase().includes(searchTerm)
   );
 
-  // Highlight the search term within the text
   const highlightText = (text, term) => {
     if (!term) return text;
     const parts = text.split(new RegExp(`(${term})`, 'gi'));
@@ -56,11 +42,9 @@ export default function FeaturedBooks({ searchTerm }) {
 
   useEffect(() => {
     if (searchTerm && filteredBooks.length > 0) {
-      // Remove previous highlights
       const allCards = document.querySelectorAll('.book-card');
       allCards.forEach(card => card.classList.remove('bg-yellow-100'));
 
-      // Scroll & highlight the first matching book
       const firstMatch = allCards[0];
       if (firstMatch) {
         firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -87,7 +71,7 @@ export default function FeaturedBooks({ searchTerm }) {
     return () => {
       cards?.forEach(card => observer.unobserve(card));
     };
-  }, []);
+  }, [featuredBooks]);
 
   return (
     <section
