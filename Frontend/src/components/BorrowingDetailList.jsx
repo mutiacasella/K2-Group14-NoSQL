@@ -19,9 +19,9 @@ const BorrowingDetailList = () => {
                 // Ambil yang statusnya 'borrowed' dan return_date masih null
                 const borrowed = allData.filter(item => item.status === 'borrowed' && item.return_date === null);
 
-                // Ambil yang statusnya 'borrowed' dan due_date udah lewat
+                // Ambil yang statusnya 'overdue' dan due_date udah lewat
                 const overdue = allData.filter(item =>
-                    item.status === 'borrowed' &&
+                    item.status === 'overdue' &&
                     item.return_date === null &&
                     new Date(item.due_date) < new Date()
                 );
