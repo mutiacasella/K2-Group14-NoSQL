@@ -10,8 +10,8 @@ export default function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/daftar" element={<FormDaftarBorrower />} />
-            <Route path="/pengembalian" element={<FormPengembalian />} />
+            <Route path="/register" element={<FormDaftarBorrower />} />
+            <Route path="/return" element={<FormPengembalian />} />
             <Route path="/book/:bookId" element={<BookDetail />} />
             <Route path="/borrowing/:borrowingId" element={<BorrowingDetailPage />} />
         </Routes>

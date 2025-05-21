@@ -23,10 +23,10 @@ export default function FormPengembalian() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300">
             <div className="max-w-xl w-full p-6 bg-white shadow-lg rounded-2xl">
-                <h1 className="text-3xl font-bold mb-6 text-center text-indigo-700">Form Pengembalian Buku</h1>
+                <h1 className="text-3xl font-bold mb-6 text-center text-indigo-700">Return Book Form</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block mb-1 font-medium text-gray-700">ID Peminjaman</label>
+                        <label className="block mb-1 font-medium text-gray-700">Borrowing ID</label>
                         <input
                             type="text"
                             value={borrowingId}
@@ -39,7 +39,7 @@ export default function FormPengembalian() {
                         type="submit"
                         className="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-md transition duration-300"
                     >
-                        Kembalikan Buku
+                        Submit
                     </button>
                 </form>
             </div>

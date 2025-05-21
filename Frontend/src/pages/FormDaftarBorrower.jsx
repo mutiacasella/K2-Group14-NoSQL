@@ -27,11 +27,11 @@ export default function FormDaftarBorrower() {
                     }
                 }
             );
-            alert('Berhasil daftar!');
+            alert('Successfull!');
             navigate('/');
         } catch (err) {
             console.error(err);
-            alert('Gagal daftar.');
+            alert('Failed.');
         }
     };
 
@@ -39,11 +39,11 @@ export default function FormDaftarBorrower() {
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-200 via-blue-100 to-purple-200">
             <div className="max-w-xl w-full p-8 bg-white shadow-lg rounded-2xl">
                 <h1 className="text-3xl font-extrabold mb-6 text-center text-pink-600">
-                    Daftar Peminjam
+                    Register
                 </h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block mb-1 font-semibold">Nama</label>
+                        <label className="block mb-1 font-semibold">Name</label>
                         <input
                             type="text"
                             value={name}
@@ -63,7 +63,7 @@ export default function FormDaftarBorrower() {
                         />
                     </div>
                     <div>
-                        <label className="block mb-1 font-semibold">Alamat</label>
+                        <label className="block mb-1 font-semibold">Address</label>
                         <input
                             type="text"
                             value={address}
@@ -73,7 +73,7 @@ export default function FormDaftarBorrower() {
                         />
                     </div>
                     <div>
-                        <label className="block mb-1 font-semibold">Nomor Telepon</label>
+                        <label className="block mb-1 font-semibold">Phone Number</label>
                         <input
                             type="text"
                             value={phoneNumber}
@@ -86,7 +86,7 @@ export default function FormDaftarBorrower() {
                         type="submit"
                         className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 rounded-md transition-all duration-200"
                     >
-                        Daftar
+                        Submit
                     </button>
                 </form>
             </div>

@@ -89,7 +89,7 @@ export default function BorrowBookForm() {
         <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 to-purple-100 px-4 py-16">
             <div className="max-w-xl w-full bg-white rounded-2xl shadow-xl p-8">
                 <h1 className="text-2xl font-bold text-center text-purple-700 mb-6 drop-shadow-sm">
-                    Form Peminjaman Buku
+                    Borrow Book Form
                 </h1>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -99,7 +99,7 @@ export default function BorrowBookForm() {
                         onChange={(e) => setSelectedName(e.target.value)}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300"
                     >
-                        <option value="">-- Pilih Nama Peminjam --</option>
+                        <option value="">-- Select The Borrower --</option>
                         {[...new Set(borrowers.map(b => b.name))].map((name, idx) => (
                             <option key={idx} value={name}>{name}</option>
                         ))}
@@ -111,7 +111,7 @@ export default function BorrowBookForm() {
                         onChange={(e) => setSelectedBookId(e.target.value)}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300"
                     >
-                        <option value="">-- Pilih Buku --</option>
+                        <option value="">-- Select The Book --</option>
                         {books.map(book => (
                             <option key={book._id} value={book._id}>{book.title}</option>
                         ))}
@@ -140,16 +140,8 @@ export default function BorrowBookForm() {
                                 : "bg-purple-600 hover:bg-purple-700"
                         }`}
                     >
-                        {loading ? "Menyimpan..." : "Pinjam Buku"}
+                        {loading ? "Menyimpan..." : "Submit"}
                     </button>
-
-                    {/* Link ke halaman daftar */}
-                    <p className="text-sm text-center mt-4">
-                        Belum terdaftar?{" "}
-                        <a href="/daftar" className="text-blue-600 underline hover:text-blue-800">
-                            Daftar di sini
-                        </a>
-                    </p>
                 </form>
             </div>
         </section>

@@ -50,7 +50,7 @@ export default function Home() {
                         BiblioHaven 📖
                     </h1>
                     <p className="text-lg mb-6 animate__animated animate__fadeInUp animate__delay-2s">
-                        Surga kecil bagi para pecinta buku.
+                        A little heaven for book lovers.
                     </p>
                     <button
                         className="bg-purple-800 text-white px-6 py-2 rounded-full font-semibold shadow-lg hover:bg-pink-400 transition duration-300 animate__animated animate__zoomIn animate__delay-3s"
