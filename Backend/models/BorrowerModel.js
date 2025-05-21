@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const borrowerSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -8,6 +9,20 @@ const borrowerSchema = new mongoose.Schema({
     password: { type: String, required: true },
 }, { timestamps: true });
 
-const Borrower = mongoose.model("Borrower", borrowerSchema);
+borrowerSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
 
+borrowerSchema.methods.comparePassword = async function (candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+};
+
+const Borrower = mongoose.model("Borrower", borrowerSchema);
 module.exports = Borrower;

@@ -1,16 +1,23 @@
 const Borrower = require("../models/BorrowerModel");
+const bcrypt = require("bcrypt");
 
-// Add Borrower
+// Register Borrower
 async function addBorrower(req, res) {
     try {
-        const { name, address, phone_number, email } = req.body;
+        const { name, address, phone_number, email, password } = req.body;
+
+        if (!password || password.length < 8) {
+            throw new Error("Password must be at least 8 characters long");
+        }
 
         const borrower = new Borrower({
-            name: name,
-            address: address,
-            phone_number: phone_number,
-            email: email
+            name,
+            address,
+            phone_number,
+            email,
+            password
         });
+
         await borrower.save();
 
         res.status(200).json({
@@ -24,6 +31,35 @@ async function addBorrower(req, res) {
             message: err.message
         });
         console.log(`Error Message: ${err.message}`);
+    }
+}
+
+// Login Borrower
+async function loginBorrower(req, res) {
+    try {
+        const { email, password } = req.body;
+
+        const borrower = await Borrower.findOne({ email });
+        if (!borrower) {
+            throw new Error("Borrower not found");
+        }
+
+        const isMatch = await borrower.comparePassword(password);
+        if (!isMatch) {
+            throw new Error("Invalid password");
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            data: borrower
+        });
+    } catch (err) {
+        res.status(401).json({
+            success: false,
+            message: err.message
+        });
+        console.log(`Login error: ${err.message}`);
     }
 }
 
@@ -72,16 +108,28 @@ async function getBorrowerById(req, res) {
 async function updateBorrower(req, res) {
     try {
         const { borrowerId } = req.params;
-        const { name, address, phone_number, email } = req.body;
+        const { name, address, phone_number, email, password } = req.body;
+
+        const updateFields = {
+            name,
+            address,
+            phone_number,
+            email
+        };
+
+        // Jika password dikirim, validasi dan hash dulu
+        if (password) {
+            if (password.length < 8) {
+                throw new Error("Password must be at least 8 characters long");
+            }
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+            updateFields.password = hashedPassword;
+        }
 
         const updatedBorrower = await Borrower.findByIdAndUpdate(
             borrowerId,
-            {
-                name: name,
-                address: address,
-                phone_number: phone_number,
-                email: email
-            },
+            updateFields,
             { new: true }
         );
 
@@ -130,6 +178,7 @@ async function deleteBorrower(req, res) {
 
 module.exports = {
     addBorrower,
+    loginBorrower,
     getAllBorrowers,
     getBorrowerById,
     updateBorrower,

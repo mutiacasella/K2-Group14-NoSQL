@@ -2,10 +2,10 @@ const express = require("express");
 const categoryRepo = require("../repositories/Category.repository");
 const router = express.Router();
 
-router.post("/add", categoryRepo.addCategory); // ga kepake
-router.get("/", categoryRepo.getAllCategory); // ga kepake
-router.get("/:categoryId", categoryRepo.getCategoryById); // ga kepake
-router.put("/:categoryId", categoryRepo.updateCategory); // ga kepake
-router.delete("/:categoryId", categoryRepo.deleteCategory); // ga kepake
+router.post("/add", categoryRepo.addCategory); 
+router.get("/", categoryRepo.getAllCategory); 
+router.get("/:categoryId", categoryRepo.getCategoryById);
+router.put("/:categoryId", categoryRepo.updateCategory); 
+router.delete("/:categoryId", categoryRepo.deleteCategory);
 
 module.exports = router;

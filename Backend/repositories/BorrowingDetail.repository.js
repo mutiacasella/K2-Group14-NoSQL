@@ -150,7 +150,7 @@ async function getBorrowingsByBorrowerId(req, res) {
     }
 }
 
-// Return Book (pengembalian buku)
+// Return Book
 async function returnBook(req, res) {
     try {
         const { borrowingId } = req.params;
@@ -223,11 +223,75 @@ async function deleteBorrowing(req, res) {
     }
 }
 
+// Get Borrowing Statistics
+async function getBorrowingStats(req, res) {
+    try {
+        const totalBorrowedRecords = await BorrowingDetail.countDocuments({});
+        const currentlyBorrowed = await BorrowingDetail.countDocuments({ status: "borrowed" });
+        const overdueCount = await BorrowingDetail.countDocuments({ status: "overdue" });
+
+        res.status(200).json({
+            success: true,
+            message: "Successfully retrieved borrowing statistics",
+            data: {
+                totalBorrowedRecords,
+                currentlyBorrowed,
+                overdueCount
+            }
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: err.message
+        });
+        console.log(err);
+    }
+}
+
+// Get Top 4 Most Borrowed Books
+async function getTopBorrowedBooks(req, res) {
+    try {
+        const result = await BorrowingDetail.aggregate([
+            {
+                $group: {
+                    _id: "$book_id",
+                    totalBorrowed: { $sum: 1 }
+                }
+            },
+            { $sort: { totalBorrowed: -1 } },
+            { $limit: 4 },
+            {
+                $lookup: {
+                    from: "books",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "book"
+                }
+            },
+            { $unwind: "$book" }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            message: "Successfully retrieved top 4 borrowed books",
+            data: result
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+        console.log(`Error Message: ${err.message}`);
+    }
+}
+
 module.exports = {
     addBorrowing,
     getAllBorrowings,
     getBorrowingById,
     getBorrowingsByBorrowerId,
     returnBook,
-    deleteBorrowing
-}
+    deleteBorrowing,
+    getBorrowingStats,
+    getTopBorrowedBooks
+};
