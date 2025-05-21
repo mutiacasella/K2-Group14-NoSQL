@@ -1,7 +1,7 @@
 const BorrowingDetail = require("../models/BorrowingDetailModel");
 const Book = require("../models/BookModel");
 
-// Add Borrowing (Peminjaman Buku)
+// Add Borrowing
 async function addBorrowing(req, res) {
     try {
         const { borrower_id, book_id, borrow_date } = req.body;
@@ -12,27 +12,38 @@ async function addBorrowing(req, res) {
             throw new Error("Book not found");
         }
 
-        if (status === "borrowed") {
-            if (book.total_quantity <= 0) {
-                throw new Error("Book is out of stock");
-            }
-            book.total_quantity -= 1;
-            await book.save();
+        if (book.total_quantity <= 0) {
+            throw new Error("Book is out of stock");
+        }
+        book.total_quantity -= 1;
+        await book.save();
+
+        // Ambil 4 top books
+        const topBorrowed = await BorrowingDetail.aggregate([
+            { $group: { _id: "$book_id", total: { $sum: 1 } } },
+            { $sort: { total: -1 } },
+            { $limit: 4 }
+        ]);
+        const topBookIds = topBorrowed.map(b => b._id.toString());
+
+        // Batas peminjaman tergantung buku
+        const borrowDateObj = new Date(borrow_date);
+        const dueDate = new Date(borrowDateObj);
+        if (topBookIds.includes(book_id.toString())) {
+            dueDate.setDate(dueDate.getDate() + 14); // 2 minggu
+        } else {
+            dueDate.setMonth(dueDate.getMonth() + 1); // 1 bulan
         }
 
-        // hitung due_date (max durasi peminjaman 1 bulan)
-        const dueDate = new Date(borrow_date);
-        dueDate.setMonth(dueDate.getMonth() + 1);
-
-        // buat data peminjaman
         const borrowingDetail = new BorrowingDetail({
-            borrower_id: borrower_id,
-            book_id: book_id,
-            borrow_date: borrow_date,
+            borrower_id,
+            book_id,
+            borrow_date: borrowDateObj,
             due_date: dueDate,
             return_date: null,
-            status: status
+            status
         });
+
         await borrowingDetail.save();
 
         res.status(200).json({
@@ -153,11 +164,13 @@ async function getBorrowingsByBorrowerId(req, res) {
 // Return Book
 async function returnBook(req, res) {
     try {
-        const { borrowingId } = req.params;
-        const { return_date } = req.body;
+        const { borrowing_id } = req.body;
 
-        // cari detail peminjaman berdasarkan ID
-        const borrowing = await BorrowingDetail.findById(borrowingId);
+        if (!borrowing_id) {
+            throw new Error("Borrowing ID is required");
+        }
+
+        const borrowing = await BorrowingDetail.findById(borrowing_id);
         if (!borrowing) {
             throw new Error("Borrowing detail not found");
         }
@@ -165,19 +178,18 @@ async function returnBook(req, res) {
             throw new Error("Book has already been returned");
         }
 
-        // update status dan tanggal kembali
-        const returnDate = new Date(return_date);
-            borrowing.return_date = returnDate;
+        // otomatis pakai tanggal sekarang
+        const returnDate = new Date();
+        borrowing.return_date = returnDate;
 
-            if (returnDate > borrowing.due_date) {
-                borrowing.status = "overdue";
-            } else {
-                borrowing.status = "returned";
-            }
+        if (returnDate > borrowing.due_date) {
+            borrowing.status = "overdue";
+        } else {
+            borrowing.status = "returned";
+        }
 
         await borrowing.save();
 
-        // tambah kembali stok buku
         const book = await Book.findById(borrowing.book_id);
         if (book) {
             book.total_quantity += 1;
