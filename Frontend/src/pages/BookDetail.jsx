@@ -17,7 +17,7 @@ import Image12 from '../assets/image12.jpg';
 import Image13 from '../assets/image13.jpg';
 import Image14 from '../assets/image14.jpg';
 import Image15 from '../assets/image15.jpg';
-import Image16 from '../assets/image16.avif';
+import Image16 from '../assets/image16.jpg';
 
 // Mapping manual bookId ke image
 const imageMap = {
