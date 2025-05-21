@@ -4,7 +4,8 @@ import Categories from '../components/Categories';
 import Footer from '../components/Footer';
 import BorrowBookForm from "../components/BorrowBookForm";
 import BorrowingDetailList from "../components/BorrowingDetailList";
-import { useEffect, useRef, useState } from 'react';
+import Statistics from "../components/Statistics";
+import { useRef, useState } from 'react';
 
 export default function Home() {
     const featuredBooksRef = useRef(null);
@@ -84,13 +85,19 @@ export default function Home() {
                 className="py-12 px-4 bg-gradient-to-br from-pink-100 via-indigo-100 to-purple-100 animate__animated animate__fadeIn animate__delay-1s"
             >
                 <BorrowBookForm />
-                </section>
+            </section>
             {/* Borrowing Detail List */}
             <section
                 id="borrowings"
                 className="py-12 px-4 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 animate__animated animate__fadeIn animate__delay-1s"
             >
                 <BorrowingDetailList />
+            </section>
+            <section
+                id="statistics"
+                className="py-12 px-4 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 animate__animated animate__fadeIn animate__delay-1s"
+            >
+                <Statistics />
             </section>
 
             {/* Footer Section */}
