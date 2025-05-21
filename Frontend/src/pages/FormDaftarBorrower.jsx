@@ -7,11 +7,23 @@ export default function FormDaftarBorrower() {
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validasi password
+        if (password.length < 8) {
+            setError('Password must be at least 8 characters');
+            return;
+        } else {
+            setError('');
+        }
+
         try {
             const res = await axios.post(
                 `${import.meta.env.VITE_API_URL}/borrower/add`,
@@ -19,7 +31,8 @@ export default function FormDaftarBorrower() {
                     name,
                     email,
                     address,
-                    phone_number: phoneNumber
+                    phone_number: phoneNumber,
+                    password
                 },
                 {
                     headers: {
@@ -27,11 +40,11 @@ export default function FormDaftarBorrower() {
                     }
                 }
             );
-            alert('Successfull!');
+            alert('Successfully registered!');
             navigate('/');
         } catch (err) {
             console.error(err);
-            alert('Failed.');
+            alert('Failed to register: ' + err.response?.data?.message || 'Unknown error');
         }
     };
 
@@ -81,6 +94,29 @@ export default function FormDaftarBorrower() {
                             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-300"
                             required
                         />
+                    </div>
+                    <div>
+                        <label className="block mb-1 font-semibold">Password</label>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                                required
+                                minLength={8}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-pink-500 hover:underline focus:outline-none"
+                            >
+                                {showPassword ? 'Hide' : 'Show'}
+                            </button>
+                        </div>
+                        {error && (
+                            <p className="text-red-500 text-sm mt-1">{error}</p>
+                        )}
                     </div>
                     <button
                         type="submit"
