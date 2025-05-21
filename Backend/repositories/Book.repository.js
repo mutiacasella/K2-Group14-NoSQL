@@ -35,7 +35,7 @@ async function addBook(req, res) {
     }
 }
 
-// Get All Book (descending order)
+// Get All Book
 async function getAllBook(req, res) {
     try {
         const books = await Book.find().sort({ updatedAt: -1 });
@@ -96,7 +96,7 @@ async function getBooksByCategory(req, res) {
     }
 }
 
-// Update Book (with optional image change)
+// Update Book
 async function updateBook(req, res) {
     try {
         const { bookId } = req.params;

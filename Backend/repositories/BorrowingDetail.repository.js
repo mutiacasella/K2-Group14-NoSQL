@@ -60,7 +60,7 @@ async function addBorrowing(req, res) {
     }
 }
 
-// Get All Borrowings (descending order)
+// Get All Borrowings
 async function getAllBorrowings(req, res) {
     try {
         const borrowings = await BorrowingDetail.find()
@@ -106,6 +106,7 @@ async function getBorrowingById(req, res) {
             .populate("book_id")
             .sort({ updatedAt: -1 });
 
+        // cek dan update status overdue
         const now = new Date();
         for (let borrowing of borrowings) {
             if (borrowing.status === "borrowed" && borrowing.due_date < now) {
@@ -238,6 +239,17 @@ async function deleteBorrowing(req, res) {
 // Get Borrowing Statistics
 async function getBorrowingStats(req, res) {
     try {
+        const borrowings = await BorrowingDetail.find();
+
+        // cek dan update status overdue
+        const now = new Date();
+        for (let borrowing of borrowings) {
+            if (borrowing.status === "borrowed" && borrowing.due_date < now) {
+                borrowing.status = "overdue";
+                await borrowing.save();
+            }
+        }
+
         const totalBorrowedRecords = await BorrowingDetail.countDocuments({});
         const currentlyBorrowed = await BorrowingDetail.countDocuments({ status: "borrowed" });
         const overdueCount = await BorrowingDetail.countDocuments({ status: "overdue" });

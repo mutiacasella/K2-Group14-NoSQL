@@ -25,7 +25,7 @@ async function addCategory(req, res) {
     }
 }
 
-// Get All Categories (descending order)
+// Get All Categories
 async function getAllCategory(req, res) {
     try {
         const categories = await Category.find().sort({ updatedAt: -1 });

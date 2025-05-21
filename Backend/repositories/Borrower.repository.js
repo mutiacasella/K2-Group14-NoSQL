@@ -63,7 +63,7 @@ async function loginBorrower(req, res) {
     }
 }
 
-// Get All Borrowers (descending order)
+// Get All Borrowers
 async function getAllBorrowers(req, res) {
     try {
         const borrowers = await Borrower.find().sort({ updatedAt: -1 });
