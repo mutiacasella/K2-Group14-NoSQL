@@ -5,24 +5,31 @@ async function addBook(req, res) {
     try {
         const { title, author, publication_year, total_quantity, category_id } = req.body;
 
-        const book = new Book({ 
-            title: title, 
-            author: author, 
-            publication_year: publication_year, 
-            total_quantity: total_quantity, 
-            category_id: category_id 
+        const cover_image = req.file?.path;
+        if (!cover_image) {
+            throw new Error("Book image is required");
+        }
+
+        const book = new Book({
+            title,
+            author,
+            publication_year,
+            total_quantity,
+            category_id,
+            cover_image
         });
+
         await book.save();
 
-        res.status(200).json({ 
-            success: true, 
-            message: "Successfully Registered Book", 
-            data: book 
+        res.status(200).json({
+            success: true,
+            message: "Successfully Registered Book",
+            data: book
         });
     } catch (err) {
-        res.status(400).json({ 
-            success: false, 
-            message: err.message 
+        res.status(400).json({
+            success: false,
+            message: err.message
         });
         console.log(`Error Message: ${err.message}`);
     }
@@ -38,9 +45,9 @@ async function getAllBook(req, res) {
             data: books
         });
     } catch (err) {
-        res.status(400).json({ 
-            success: false, 
-            message: err.message 
+        res.status(400).json({
+            success: false,
+            message: err.message
         });
         console.log(err);
     }
@@ -50,7 +57,7 @@ async function getAllBook(req, res) {
 async function getBookById(req, res) {
     try {
         const { bookId } = req.params;
-        const book = await Book.findOne({ _id: bookId });
+        const book = await Book.findById(bookId);
         if (!book) {
             throw new Error("Book not found");
         }
@@ -61,9 +68,9 @@ async function getBookById(req, res) {
             data: book
         });
     } catch (err) {
-        res.status(400).json({ 
-            success: false, 
-            message: err.message 
+        res.status(400).json({
+            success: false,
+            message: err.message
         });
         console.log(err);
     }
@@ -73,7 +80,6 @@ async function getBookById(req, res) {
 async function getBooksByCategory(req, res) {
     try {
         const { categoryId } = req.params;
-
         const books = await Book.find({ category_id: categoryId });
 
         res.status(200).json({
@@ -90,37 +96,39 @@ async function getBooksByCategory(req, res) {
     }
 }
 
-// Update Book
+// Update Book (with optional image change)
 async function updateBook(req, res) {
     try {
         const { bookId } = req.params;
         const { title, author, publication_year, total_quantity, category_id } = req.body;
 
-        const updatedBook = await Book.findByIdAndUpdate(
-            bookId,
-            {
-                title: title,
-                author: author,
-                publication_year: publication_year,
-                total_quantity: total_quantity,
-                category_id: category_id
-            },
-            { new: true }
-        );
+        const updateData = {
+            title,
+            author,
+            publication_year,
+            total_quantity,
+            category_id
+        };
+
+        if (req.file?.path) {
+            updateData.cover_image = req.file.path;
+        }
+
+        const updatedBook = await Book.findByIdAndUpdate(bookId, updateData, { new: true });
 
         if (!updatedBook) {
             throw new Error("Book not found");
         }
 
-        res.status(200).json({ 
-            success: true, 
-            message: "Successfully updated book", 
-            data: updatedBook 
+        res.status(200).json({
+            success: true,
+            message: "Successfully updated book",
+            data: updatedBook
         });
     } catch (err) {
-        res.status(400).json({ 
-            success: false, 
-            message: err.message 
+        res.status(400).json({
+            success: false,
+            message: err.message
         });
         console.log(`Error Message: ${err.message}`);
     }
@@ -130,22 +138,21 @@ async function updateBook(req, res) {
 async function deleteBook(req, res) {
     try {
         const { bookId } = req.params;
-
         const deletedBook = await Book.findByIdAndDelete(bookId);
 
         if (!deletedBook) {
             throw new Error("Book not found");
         }
 
-        res.status(200).json({ 
-            success: true, 
-            message: "Successfully deleted book", 
-            data: deletedBook 
+        res.status(200).json({
+            success: true,
+            message: "Successfully deleted book",
+            data: deletedBook
         });
     } catch (err) {
-        res.status(400).json({ 
-            success: false, 
-            message: err.message 
+        res.status(400).json({
+            success: false,
+            message: err.message
         });
         console.log(`Error Message: ${err.message}`);
     }
@@ -158,4 +165,4 @@ module.exports = {
     getBooksByCategory,
     updateBook,
     deleteBook
-}
+};
