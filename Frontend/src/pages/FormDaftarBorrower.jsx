@@ -13,12 +13,20 @@ export default function FormDaftarBorrower() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:8080/borrower/add', {
-                name,
-                email,
-                address,
-                phone_number: phoneNumber
-            });
+            const res = await axios.post(
+                `${import.meta.env.VITE_API_URL}/borrower/add`,
+                {
+                    name,
+                    email,
+                    address,
+                    phone_number: phoneNumber
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
             alert('Berhasil daftar!');
             navigate('/');
         } catch (err) {
