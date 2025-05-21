@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function FormDaftarBorrower() {
     const [name, setName] = useState('');
@@ -16,7 +17,6 @@ export default function FormDaftarBorrower() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validasi password
         if (password.length < 8) {
             setError('Password must be at least 8 characters');
             return;
@@ -109,9 +109,9 @@ export default function FormDaftarBorrower() {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-pink-500 hover:underline focus:outline-none"
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pink-500 focus:outline-none"
                             >
-                                {showPassword ? 'Hide' : 'Show'}
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </button>
                         </div>
                         {error && (
