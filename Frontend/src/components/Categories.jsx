@@ -11,10 +11,10 @@ const Categories = () => {
 
   // Mapping kategori ID ke nama kategori (bisa dari backend nanti)
   const categoryMap = {
-    '682d7db33f79a198cb27241b': 'Fiction',
     '682d7dbe3f79a198cb27241d': 'Non-Fiction',
     '682d7d573f79a198cb272418': 'Biography',
     '682d7dc93f79a198cb27241f': 'Self-Help',
+    '682d7db33f79a198cb27241b': 'Fiction',
   };
 
   // Ambil data dari backend
