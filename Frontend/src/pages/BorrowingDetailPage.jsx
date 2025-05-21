@@ -65,7 +65,6 @@ const BorrowingDetailPage = () => {
                     <p><span className="font-semibold">Borrowing ID:</span> {borrowing._id || 'Unknown'}</p>
                     <p><span className="font-semibold">Borrowed Date:</span> {new Date(borrowing.borrow_date).toLocaleDateString()}</p>
                     <p><span className="font-semibold">Due Date:</span> {new Date(borrowing.due_date).toLocaleDateString()}</p>
-                    <p><span className="font-semibold">Return Date:</span> {borrowing.return_date ? new Date(borrowing.returned_date).toLocaleDateString() : '-'}</p>
                     <p>
                         <span className="font-semibold">Status:</span>{" "}
                         <span className={`font-bold px-2 py-1 rounded-md ${borrowing.status === "overdue" ? "bg-red-200 text-red-800" : borrowing.status === "returned" ? "bg-green-200 text-green-800" : "bg-blue-100 text-blue-800"}`}>

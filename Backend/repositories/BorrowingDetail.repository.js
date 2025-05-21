@@ -94,31 +94,29 @@ async function getAllBorrowings(req, res) {
 // Get Borrowing By ID
 async function getBorrowingById(req, res) {
     try {
-        const { status } = req.query;
+        const { borrowingId } = req.params;
 
-        const filter = {};
-        if (status) {
-            filter.status = status;
+        const borrowing = await BorrowingDetail.findById(borrowingId)
+            .populate("borrower_id")
+            .populate("book_id");
+
+        if (!borrowing) {
+            return res.status(404).json({
+                success: false,
+                message: "Borrowing not found"
+            });
         }
 
-        const borrowings = await BorrowingDetail.find(filter)
-            .populate("borrower_id")
-            .populate("book_id")
-            .sort({ updatedAt: -1 });
-
-        // cek dan update status overdue
         const now = new Date();
-        for (let borrowing of borrowings) {
-            if (borrowing.status === "borrowed" && borrowing.due_date < now) {
-                borrowing.status = "overdue";
-                await borrowing.save();
-            }
+        if (borrowing.status === "borrowed" && borrowing.due_date < now) {
+            borrowing.status = "overdue";
+            await borrowing.save();
         }
 
         res.status(200).json({
             success: true,
-            message: "Successfully get all borrowings",
-            data: borrowings
+            message: "Successfully retrieved borrowing by ID",
+            data: borrowing
         });
     } catch (err) {
         res.status(400).json({
@@ -128,6 +126,7 @@ async function getBorrowingById(req, res) {
         console.log(err);
     }
 }
+
 
 // Get Borrowing History By Borrower ID
 async function getBorrowingsByBorrowerId(req, res) {
