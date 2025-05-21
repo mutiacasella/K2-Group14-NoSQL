@@ -8,12 +8,18 @@ export default function BorrowBookForm() {
     const [selectedName, setSelectedName] = useState("");
     const [selectedBookId, setSelectedBookId] = useState("");
     const [borrowDate, setBorrowDate] = useState("");
+    const [today, setToday] = useState("");
 
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
     useEffect(() => {
+        // Set hari ini (format YYYY-MM-DD)
+        const todayDate = new Date().toISOString().split("T")[0];
+        setToday(todayDate);
+        setBorrowDate(todayDate);
+
         // Fetch borrower
         axios.get("http://localhost:8080/borrower")
             .then(res => setBorrowers(res.data.data))
@@ -31,14 +37,12 @@ export default function BorrowBookForm() {
         setErrorMsg("");
         setSuccessMsg("");
 
-        // Validasi input
         if (!selectedName || !selectedBookId || !borrowDate) {
             setErrorMsg("Mohon lengkapi semua field");
             setLoading(false);
             return;
         }
 
-        // Cek nama borrower
         const matchingBorrowers = borrowers.filter(
             (b) => b.name.toLowerCase() === selectedName.toLowerCase()
         );
@@ -69,7 +73,7 @@ export default function BorrowBookForm() {
                 setSuccessMsg("Peminjaman berhasil disimpan! 📚");
                 setSelectedName("");
                 setSelectedBookId("");
-                setBorrowDate("");
+                setBorrowDate(today); // Reset ke hari ini
                 setTimeout(() => setSuccessMsg(""), 3000);
             } else {
                 setErrorMsg("Gagal menyimpan peminjaman 😢");
@@ -117,6 +121,7 @@ export default function BorrowBookForm() {
                     <input
                         type="date"
                         value={borrowDate}
+                        min={today}
                         onChange={(e) => setBorrowDate(e.target.value)}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300"
                     />
