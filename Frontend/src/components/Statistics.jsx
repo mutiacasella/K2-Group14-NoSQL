@@ -11,16 +11,21 @@ export default function Statistics() {
     });
 
     useEffect(() => {
-        async function fetchStats() {
+    async function fetchStats() {
         try {
-            const response = await axios.get("http://localhost:8080/borrowing/stats");
-            setStats(response.data.data);
+        const response = await axios.get("http://localhost:8080/borrowing/stats");
+        console.log("Stats response:", response.data);
+        setStats({
+            total: response.data.data.totalBorrowedRecords,
+            active: response.data.data.currentlyBorrowed,
+            overdue: response.data.data.overdueCount
+        });
         } catch (error) {
-            console.error("Failed to fetch stats:", error);
+        console.error("Failed to fetch stats:", error);
         }
-        }
+    }
 
-        fetchStats();
+    fetchStats();
     }, []);
 
     const statItems = [

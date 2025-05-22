@@ -8,7 +8,7 @@ router.get("/stats", borrowingRepo.getBorrowingStats);
 router.get("/topborrowed", borrowingRepo.getTopBorrowedBooks);
 router.get("/", borrowingRepo.getAllBorrowings);
 router.get("/borrower/:borrowerId", borrowingRepo.getBorrowingsByBorrowerId); 
-router.get("/:borrowingId", borrowingRepo.getBorrowingById); // ga kepake
-router.delete("/:borrowingId", borrowingRepo.deleteBorrowing); // ga kepake
+router.get("/:borrowingId", borrowingRepo.getBorrowingById); 
+router.delete("/:borrowingId", borrowingRepo.deleteBorrowing); 
 
 module.exports = router;
