@@ -8,17 +8,17 @@ Biblio Haven merupakan sebuah aplikasi perpustakaan digital yang dirancang untuk
 
 Biblio Haven menyediakan berbagai fitur yang dirancang untuk mendukung pengelolaan perpustakaan secara digital, seperti:
 ### - 📝 Registrasi dan Login Pengguna
-    Pengguna dapat membuat akun dan masuk ke sistem menggunakan email dan kata sandi terenkripsi.
+Pengguna dapat membuat akun dan masuk ke sistem menggunakan email dan kata sandi terenkripsi.
 ### - 🗂️ Daftar Buku Tersedia
-    Pengguna dapat melihat seluruh koleksi buku yang ditampilkan dan dikelompokkan berdasarkan kategori untuk memudahkan penelusuran.
+Pengguna dapat melihat seluruh koleksi buku yang ditampilkan dan dikelompokkan berdasarkan kategori untuk memudahkan penelusuran.
 ### - 📈 Buku Terpopuler
-    Sistem secara otomatis menampilkan empat buku yang paling sering dipinjam oleh pengguna.
+Sistem secara otomatis menampilkan empat buku yang paling sering dipinjam oleh pengguna.
 ### - 🔄 Peminjaman dan Pengembalian Buku
-    Pengguna dapat melakukan peminjaman buku langsung dari aplikasi, serta mengembalikan buku yang sudah selesai dibaca.
+Pengguna dapat melakukan peminjaman buku langsung dari aplikasi, serta mengembalikan buku yang sudah selesai dibaca.
 ### - 🕘 Riwayat Peminjaman
-    Setiap aktivitas peminjaman dicatat dan dapat diakses kembali oleh pengguna untuk keperluan pelacakan dan pengelolaan pribadi.
+Setiap aktivitas peminjaman dicatat dan dapat diakses kembali oleh pengguna untuk keperluan pelacakan dan pengelolaan pribadi.
 ### - 📊 Statistik Penggunaan
-    Sistem menampilkan informasi ringkas mengenai informasi-informasi yang berhubungan dengan peminjaman.
+Sistem menampilkan informasi ringkas mengenai informasi-informasi yang berhubungan dengan peminjaman.
 
 ---
 
