@@ -34,6 +34,7 @@ export default function Login() {
                 }
             );
             alert('Successfully login!');
+            localStorage.setItem('isLoggedIn', 'true'); // <== Tambahkan ini
             navigate('/');
         } catch (err) {
             console.error(err);
